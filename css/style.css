@@ -8,7 +8,6 @@
   --primary-color: #22254b;
   --secondary-color: #373b69;
 }
-
 .navbar {
   background-color: #032541;
 }
@@ -85,15 +84,17 @@
 }
 
 /* What is popular */
-.populars-option {
+.populars-option,
+.freeMovies {
   display: inline-block;
   border: 1px solid black;
   padding: 4px 20px;
   border-radius: 50px;
 }
-.populars-option a {
+.populars-option a,
+.freeMovies a {
   text-decoration: none;
-  color: #032541;
+  color: #22254b;
 }
 main {
   /* position: relative; */
@@ -105,14 +106,15 @@ main {
   margin-left: 30px; */
 }
 
-#movies-list {
+.movies-list,
+.main_list_free {
   display: flex;
   overflow-x: scroll;
 }
 
 .card {
   flex-shrink: 0;
-  height: 420px;
+  height: 370px;
   width: 150px;
   margin: 1rem;
   border: none;
@@ -159,7 +161,7 @@ main {
 }
 .rate {
   position: absolute;
-  bottom: 180px;
+  bottom: 130px;
   right: 95px;
 }
 .precentage {
@@ -167,3 +169,11 @@ main {
   top: 5;
   left: 10;
 }
+::-webkit-scrollbar {
+  display: none;
+}
+/* /What is popular */
+
+/* Free To Watch */
+
+/* /Free To Watch */
