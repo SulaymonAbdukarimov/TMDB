@@ -7,12 +7,12 @@ const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 const main = document.getElementById("main");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
+const search_btn = document.getElementById("search-button");
 getMovies(API_URL);
 function getMovies(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.results);
       showMovies(data.results);
     });
 }
@@ -22,14 +22,16 @@ function showMovies(data) {
   data.forEach((movie) => {
     const { title, poster_path, vote_average, release_date } = movie;
     const movieEl = document.createElement("div");
-    movieEl.classList.add("movie");
+    movieEl.classList.add("card");
     movieEl.innerHTML = `
-    <img src="${IMG_URL + poster_path}" alt="${title}">
-    <div class="movie-info">
-        <span class=" ${getColor(vote_average)}">${vote_average}</span>
-        <h3 class="movie_title">${title}</h3>
-        <h5 class="data_of_movie">${release_date}</h5>
-    </div>
+      <img src="${IMG_URL + poster_path}" class="card-img-top" alt="${title}">
+     <div class="card-body movie-info">
+        <span class=" ${getColor(
+          vote_average
+        )} rate">${vote_average}<sup class="precentage">%</sup></span>
+           <a href="#"  class="card-title">${title}</a>
+          <h6 class="data_of_movie">${release_date}</h6>
+      </div>
     `;
     main.appendChild(movieEl);
   });
@@ -47,7 +49,17 @@ function getColor(vote) {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const searchTerm = search.ariaValueMax;
+  const searchTerm = search.value;
+  if (searchTerm) {
+    getMovies(searchURL + "&query=" + searchTerm);
+  } else {
+    getMovies(API_URL);
+  }
+});
+
+search_btn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const searchTerm = search.value;
   if (searchTerm) {
     getMovies(searchURL + "&query=" + searchTerm);
   } else {
