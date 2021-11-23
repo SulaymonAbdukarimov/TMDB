@@ -17,25 +17,26 @@ const search = document.getElementById("search");
 const search_btn = document.getElementById("search-button");
 
 getMovies(API_URL);
+getFreeMovie(FREE_TO_WATCH);
 function getMovies(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      showMovies(data.results);
-      console.log(API_URL);
+      showMovies(data.results, "allmovies");
+      // console.log(API_URL);
     });
 }
-getFreeMovie(FREE_TO_WATCH);
 function getFreeMovie(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      console.log(FREE_TO_WATCH);
-      showMovies(data.results);
+      // console.log(FREE_TO_WATCH);
+      showMovies(data.results, "freeMovies");
     });
 }
 
-function showMovies(data) {
+function showMovies(data, type) {
+  console.log(type)
   let movieCard = "";
   data.forEach((movie) => {
     const { title, poster_path, vote_average, release_date } = movie;
@@ -52,8 +53,11 @@ function showMovies(data) {
     </div>
     `;
   });
-  main.innerHTML += movieCard;
-  main_list_free.innerHTML += movieCard;
+  if (type === 'allmovies') {
+    main.innerHTML += movieCard;
+  } else {
+    main_list_free.innerHTML += movieCard;
+  }
 }
 
 function getColor(vote) {
