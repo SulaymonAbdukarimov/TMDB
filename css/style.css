@@ -85,14 +85,16 @@
 
 /* What is popular */
 .populars-option,
-.freeMovies {
+.freeMovies,
+.trendMovies {
   display: inline-block;
   border: 1px solid black;
   padding: 4px 20px;
   border-radius: 50px;
 }
 .populars-option a,
-.freeMovies a {
+.freeMovies a,
+.trendMovies a {
   text-decoration: none;
   color: #22254b;
 }
@@ -107,7 +109,8 @@ main {
 }
 
 .movies-list,
-.main_list_free {
+.main_list_free,
+.main-trend-movie {
   display: flex;
   overflow-x: scroll;
 }
@@ -174,6 +177,59 @@ main {
 }
 /* /What is popular */
 
-/* Free To Watch */
+/* FOOTER */
 
-/* /Free To Watch */
+.footer-main a {
+  display: block;
+  text-decoration: none;
+  color: white;
+  font-weight: normal;
+}
+.footer-main h3 {
+  color: white;
+  font-size: large;
+  font-weight: bold;
+}
+footer {
+  background-color: #031d33;
+  max-width: 100%;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0;
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: space-between;
+  justify-content: center;
+}
+.footer-main {
+  margin-top: 100px;
+  margin-bottom: 80px;
+}
+.footer-logo {
+  position: relative;
+  top: 60px;
+  left: 120px;
+  width: 130px;
+  height: 94px;
+}
+.footer-button {
+  position: relative;
+  top: 100px;
+  left: 100px;
+  border-color: white;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 8px 16px;
+  transition: linear 0.1s;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #01b4e4;
+}
+.footer-1 {
+}
+/* /FOOTER */ ;

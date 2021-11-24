@@ -1,28 +1,36 @@
 //TMDB
 const API_KEY = "api_key=2783f79163eb708200b1a5e760fdf087";
 const BASE_URL = "https://api.themoviedb.org/3";
-const API_URL =
+const API_URL = BASE_URL + "/discover/movie?sort_by=popularity.desc&" + API_KEY; //WHAT IS POPULARS API
+const FREE_TO_WATCH =
   BASE_URL +
   "/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&" +
-  API_KEY; //WHAT IS POPULARS API
-const FREE_TO_WATCH =
-  BASE_URL + "/discover/movie?sort_by=popularity.desc&" + API_KEY; //Free To Watch API
-
+  API_KEY; //Free To Watch API
+const TRENDING = BASE_URL + "/trending/tv/day?" + API_KEY;
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 const main = document.getElementById("movies-list");
 const main_list_free = document.getElementById("movies-list-free");
+const trendMovie = document.getElementById("trendMovie");
 const form = document.getElementById("form");
 const search = document.getElementById("search");
 const search_btn = document.getElementById("search-button");
 
 getMovies(API_URL);
 getFreeMovie(FREE_TO_WATCH);
+getTrendingMovie(TRENDING);
+function getTrendingMovie(url) {
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      showTrending(data.results);
+    });
+}
 function getMovies(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      showMovies(data.results, "allmovies");
+      showMovies(data.results);
       // console.log(API_URL);
     });
 }
@@ -31,12 +39,10 @@ function getFreeMovie(url) {
     .then((res) => res.json())
     .then((data) => {
       // console.log(FREE_TO_WATCH);
-      showMovies(data.results, "freeMovies");
+      showFreeMovie(data.results);
     });
 }
-
-function showMovies(data, type) {
-  console.log(type)
+function showTrending(data) {
   let movieCard = "";
   data.forEach((movie) => {
     const { title, poster_path, vote_average, release_date } = movie;
@@ -53,13 +59,48 @@ function showMovies(data, type) {
     </div>
     `;
   });
-  if (type === 'allmovies') {
-    main.innerHTML += movieCard;
-  } else {
-    main_list_free.innerHTML += movieCard;
-  }
+  trendMovie.innerHTML += movieCard;
 }
 
+function showMovies(data) {
+  let movieCard = "";
+  data.forEach((movie) => {
+    const { title, poster_path, vote_average, release_date } = movie;
+    movieCard += `
+    <div class="card">
+      <img src="${IMG_URL + poster_path}" class="card-img-top" alt="${title}">
+     <div class="card-body movie-info">
+        <span class=" ${getColor(
+          vote_average
+        )} rate">${vote_average}<sup class="precentage">%</sup></span>
+           <a href="#" class="card-title">${title}</a>
+          <h6 class="data_of_movie">${release_date}</h6>
+      </div>
+    </div>
+    `;
+  });
+  main.innerHTML += movieCard;
+}
+
+function showFreeMovie(data) {
+  let movieCard = "";
+  data.forEach((movie) => {
+    const { title, poster_path, vote_average, release_date } = movie;
+    movieCard += `
+    <div class="card">
+      <img src="${IMG_URL + poster_path}" class="card-img-top" alt="${title}">
+     <div class="card-body movie-info">
+        <span class=" ${getColor(
+          vote_average
+        )} rate">${vote_average}<sup class="precentage">%</sup></span>
+           <a href="#" class="card-title">${title}</a>
+          <h6 class="data_of_movie">${release_date}</h6>
+      </div>
+    </div>
+    `;
+  });
+  main_list_free.innerHTML += movieCard;
+}
 function getColor(vote) {
   if (vote >= 8) {
     return "green";
@@ -75,8 +116,10 @@ form.addEventListener("submit", (e) => {
   const searchTerm = search.value;
   if (searchTerm) {
     getMovies(searchURL + "&query=" + searchTerm);
+    console.log("aaaaaaaaaaaaaaaaaaaaaaa");
   } else {
     getMovies(API_URL);
+    console.log("bbbbbbbbbbbbbbbbbbbbbbbb");
   }
 });
 
@@ -85,8 +128,10 @@ search_btn.addEventListener("click", (e) => {
   const searchTerm = search.value;
   if (searchTerm) {
     getMovies(searchURL + "&query=" + searchTerm);
+    console.log("dddddddddddddddddddd");
   } else {
     getMovies(API_URL);
+    console.log("ccccccccccccccccccccc");
   }
 });
 
