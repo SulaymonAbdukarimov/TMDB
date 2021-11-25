@@ -6,7 +6,7 @@ const FREE_TO_WATCH =
   BASE_URL +
   "/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&" +
   API_KEY; //Free To Watch API
-const TRENDING = BASE_URL + "/trending/tv/day?" + API_KEY;
+const TRENDING = BASE_URL + "/tv/airing_today?" + API_KEY;
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 const main = document.getElementById("movies-list");
@@ -24,7 +24,8 @@ function getTrendingMovie(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      showMovies(data.results, "trendingMovie");
+      showTrending(data.results, "trendingMovie");
+      console.log(data.results);
     });
 }
 function getMovies(url) {
@@ -43,6 +44,27 @@ function getFreeMovie(url) {
       // console.log(FREE_TO_WATCH);
       showMovies(data.results, "freeMovie");
     });
+}
+function showTrending(data, type) {
+  let movieCard = "";
+  data.forEach((movie) => {
+    const { name, first_air_date, poster_path, vote_average, release_date } =
+      movie;
+    movieCard += `
+    <div class="card">
+      <img src="${IMG_URL + poster_path}" class="card-img-top" alt="${name}">
+     <div class="card-body movie-info">
+        <span class=" ${getColor(
+          vote_average
+        )} rate">${vote_average}<sup class="precentage">%</sup></span>
+           <a href="#" class="card-title">${name}</a>
+          <h6 class="data_of_movie">${first_air_date}</h6>
+      </div>
+    </div>
+    `;
+  });
+
+  trendMovie.innerHTML += movieCard;
 }
 
 function showMovies(data, type) {
@@ -102,3 +124,12 @@ search_btn.addEventListener("click", (e) => {
 });
 
 /* /SEARCH*/
+
+// var navbar = document.querySelector("nav");
+// window.addEventListener("scroll", () => {
+//   if (window.scrollY > 20) {
+//     navbar.classList.add("bekil");
+//   } else {
+//     navbar.classList.remove("bekil");
+//   }
+// });
