@@ -19,30 +19,33 @@ const search_btn = document.getElementById("search-button");
 getMovies(API_URL);
 getFreeMovie(FREE_TO_WATCH);
 getTrendingMovie(TRENDING);
+
 function getTrendingMovie(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      showTrending(data.results);
+      showMovies(data.results, "trendingMovie");
     });
 }
 function getMovies(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      showMovies(data.results);
+      showMovies(data.results, "popularMovie");
       // console.log(API_URL);
     });
 }
+
 function getFreeMovie(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
       // console.log(FREE_TO_WATCH);
-      showFreeMovie(data.results);
+      showMovies(data.results, "freeMovie");
     });
 }
-function showTrending(data) {
+
+function showMovies(data, type) {
   let movieCard = "";
   data.forEach((movie) => {
     const { title, poster_path, vote_average, release_date } = movie;
@@ -59,48 +62,15 @@ function showTrending(data) {
     </div>
     `;
   });
-  trendMovie.innerHTML += movieCard;
+  if (type === "popularMovie") {
+    main.innerHTML += movieCard;
+  } else if (type === "freeMovie") {
+    main_list_free.innerHTML += movieCard;
+  } else {
+    trendMovie.innerHTML += movieCard;
+  }
 }
 
-function showMovies(data) {
-  let movieCard = "";
-  data.forEach((movie) => {
-    const { title, poster_path, vote_average, release_date } = movie;
-    movieCard += `
-    <div class="card">
-      <img src="${IMG_URL + poster_path}" class="card-img-top" alt="${title}">
-     <div class="card-body movie-info">
-        <span class=" ${getColor(
-          vote_average
-        )} rate">${vote_average}<sup class="precentage">%</sup></span>
-           <a href="#" class="card-title">${title}</a>
-          <h6 class="data_of_movie">${release_date}</h6>
-      </div>
-    </div>
-    `;
-  });
-  main.innerHTML += movieCard;
-}
-
-function showFreeMovie(data) {
-  let movieCard = "";
-  data.forEach((movie) => {
-    const { title, poster_path, vote_average, release_date } = movie;
-    movieCard += `
-    <div class="card">
-      <img src="${IMG_URL + poster_path}" class="card-img-top" alt="${title}">
-     <div class="card-body movie-info">
-        <span class=" ${getColor(
-          vote_average
-        )} rate">${vote_average}<sup class="precentage">%</sup></span>
-           <a href="#" class="card-title">${title}</a>
-          <h6 class="data_of_movie">${release_date}</h6>
-      </div>
-    </div>
-    `;
-  });
-  main_list_free.innerHTML += movieCard;
-}
 function getColor(vote) {
   if (vote >= 8) {
     return "green";
@@ -116,10 +86,8 @@ form.addEventListener("submit", (e) => {
   const searchTerm = search.value;
   if (searchTerm) {
     getMovies(searchURL + "&query=" + searchTerm);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaa");
   } else {
     getMovies(API_URL);
-    console.log("bbbbbbbbbbbbbbbbbbbbbbbb");
   }
 });
 
@@ -128,10 +96,8 @@ search_btn.addEventListener("click", (e) => {
   const searchTerm = search.value;
   if (searchTerm) {
     getMovies(searchURL + "&query=" + searchTerm);
-    console.log("dddddddddddddddddddd");
   } else {
     getMovies(API_URL);
-    console.log("ccccccccccccccccccccc");
   }
 });
 
